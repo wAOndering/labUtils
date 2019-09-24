@@ -16,3 +16,6 @@ in command line/ terminal:
  -then run the program with:  
  	python videoSegment.py
 
+### screenshot input example
+<img src="screenShotexample.PNG">
+
