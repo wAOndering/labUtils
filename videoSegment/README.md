@@ -12,7 +12,7 @@ _graphical description_
 
 ### usage
 in command line/ terminal:  
- -navigate in the directory where the folder is located (using cd)
+ -navigate in the directory where the folder is located (using cd)  
  -then run the program with:  
  	python videoSegment.py
 
