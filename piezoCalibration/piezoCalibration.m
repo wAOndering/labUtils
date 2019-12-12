@@ -5,6 +5,11 @@
 
 
 function out = piezoCalibration(path, desiredDeflection)% function name of the function 
+% desiredDeflection
+% approximate value for the deflection
+% low stimulus is 90 ==> output angle should be 2.6
+% mid stimulus is 142 ==> output angle should be 4.1
+% high stimulus is 200 ==> output angle should be 5.6
 
 
 %path= 'C:\Users\Windows\Desktop\Tom stim\5p_5hz'
@@ -29,10 +34,17 @@ for i=1:length(files) % perform a for loop for all the operation
 	dSize=size(data); % check the size of the loaded data
 	data=data(:,2,:);% the data of interest are IN7 2nd element of s
 
+
+	if length(dSize)==3
 	data=reshape(data, [dSize(1), dSize(3)]); % go from a 3D dimension to 2D array (3D: 1: timeserie, 2: channel, 3: sweeps)
+	else
+		continue
+	end
 	data=-data(:);
 
+
 	% find peaks
+	% note that if just acquire pure sine then need to change the peak detection by jsut removing peakHeight and increasing the distance
 	[pks,locs] = findpeaks(data, 'SortStr','descend','MinPeakHeight',std(data)*2.5, 'MinPeakDistance', 400); %store the peak amplitude in pks and the index location of the peaks in locs
 	tmpnpks=numel(pks); % temporary store the peak number
 	npks=[npks, tmpnpks]; % will be stored iteratively
