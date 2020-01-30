@@ -8,7 +8,7 @@ function out = piezoCalibration(path, desiredDeflection)% function name of the f
 % desiredDeflection
 % approximate value for the deflection
 % low stimulus is 90 ==> output angle should be 2.6
-% mid stimulus is 142 ==> output angle should be 4.1
+% mid stimulus is 145 ==> output angle should be 4.1
 % high stimulus is 200 ==> output angle should be 5.6
 
 
@@ -37,15 +37,17 @@ for i=1:length(files) % perform a for loop for all the operation
 
 	if length(dSize)==3
 	data=reshape(data, [dSize(1), dSize(3)]); % go from a 3D dimension to 2D array (3D: 1: timeserie, 2: channel, 3: sweeps)
-	else
-		continue
+	% else
+	% 	continue
 	end
 	data=-data(:);
 
 
+
 	% find peaks
 	% note that if just acquire pure sine then need to change the peak detection by jsut removing peakHeight and increasing the distance
-	[pks,locs] = findpeaks(data, 'SortStr','descend','MinPeakHeight',std(data)*2.5, 'MinPeakDistance', 400); %store the peak amplitude in pks and the index location of the peaks in locs
+% 	[pks,locs] = findpeaks(data, 'SortStr','descend','MinPeakHeight',std(data)*2.5, 'MinPeakDistance', 400); %store the peak amplitude in pks and the index location of the peaks in locs
+	[pks,locs] = findpeaks(data, 'SortStr','descend', 'MinPeakDistance', 1200); %store the peak amplitude in pks and the index location of the peaks in locs
 	tmpnpks=numel(pks); % temporary store the peak number
 	npks=[npks, tmpnpks]; % will be stored iteratively
 
@@ -57,10 +59,12 @@ for i=1:length(files) % perform a for loop for all the operation
 	% calculate the mean of pks
 	mpks=mean(pks); % temporary store the peak mean
 	rpks= [rpks,  mpks]; % will be stored iteratively
+	display([num2str(mpks); stimV])
 
 end
 
-output=double(horzcat(rstimV', rpks', npks')) %perform horizontal concatenation and conversion to number (aka double)
+output=double(horzcat(rstimV', rpks', npks')) 
+%perform horizontal concatenation and conversion to number (aka double)
 tang=output(:,2)/2000 % corresponding to a distance of 2000 mm 
 angleDeg=atand(tang) % correspond to the angle in degree
 
@@ -71,7 +75,7 @@ f = polyval(p,output(:,1)');
 plot(output(:,1)', output(:,2)', 'o', output(:,1)', f, '-')
 
 % equation y=deflection x=voltage - y=p(1)x+p(2)
-%desiredDeflection=200
+desiredDeflection=90
 inputVolt = (desiredDeflection - p(2))/p(1)
 
 % corresponding angle in degree can be found with 

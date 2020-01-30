@@ -4,7 +4,7 @@ import glob
 
 
 os.getcwd() # get the current directory
-path= '/home/rum/Desktop/videoTolook'
+path= 'C:/Users/Windows/Desktop/TEMP_videoProcessing'
 os.chdir(path) # change the directory
 files=glob.glob(path+'/*.mp4')
 
@@ -12,7 +12,7 @@ for i,j in enumerate(files):
 	print(i,j)
 	tmp=os.path.basename(j)
 	if os.path.getsize(j) >= 0.5e+9:
-		subprocess.call('ffmpeg -i '+tmp+' -ss 00:19:10 -to 00:35:00 cut_'+tmp, shell=True)			
+		subprocess.call('ffmpeg -i '+tmp+' -ss 01:08:10 -to 01:23:00 cut_'+tmp, shell=True)			
 	else:
 		continue
 
