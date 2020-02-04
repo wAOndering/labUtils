@@ -94,7 +94,7 @@ distMeas=pd.DataFrame({'animalID': aidF,
 					   'Transition': allStepIdx})
 
 # sort the data by animal id and depth
-distMeas=distMeas.sort_values(by=['animalID','depth'])
+distMeas=distMeas.sort_values(by=['animalID','Transition'])
 distMeas=distMeas.reset_index(drop=True)
 
 pd.DataFrame.to_csv(distMeas, path+'/LaserTriggerDetect.csv')

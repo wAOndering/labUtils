@@ -9,10 +9,10 @@ path=r'C:\Users\Windows\Desktop\cut_pole1'
 outputVid=path+'/videoQC'
 os.makedirs(outputVid, exist_ok=True)
 
-files=glob.glob(path + '\\*.csv', recursive=True)
+files=glob.glob(path + '/*.csv', recursive=True)
 dt=pd.read_csv(files[0])
 
-files=glob.glob(path + '\\*.mp4', recursive=True)
+files=glob.glob(path + '/*.mp4', recursive=True)
 
 # loop over the files to extract the information
 for i in files:
@@ -21,7 +21,7 @@ for i in files:
     
     # extract the animal id from the file path
     aid=os.path.splitext(i)[0]
-    aid=aid.split('\\')
+    aid=aid.split('/')
     aid=aid[-1]
 
     transVal=dt.loc[dt.animalID == aid, 'Transition'].iloc[0]
