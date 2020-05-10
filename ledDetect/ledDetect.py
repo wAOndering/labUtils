@@ -19,10 +19,11 @@ import os
 # path the the working folder
 # list of all the mp4 files
 path=r'C:\Users\Windows\Desktop\cut_pole1'
-files=glob.glob(path + '\\*.mp4', recursive=True)
+path='/home/rum/Desktop/cut_pole2'
+files=glob.glob(path + '/*.mp4', recursive=True)
 
 # define parameter of interest for the video
-startTime=6 #start time of the video to be detected at in minutes
+startTime=1 #start time of the video to be detected at in minutes
 
 # initalize the video
 allStepIdx=[]
@@ -37,7 +38,9 @@ for i in files:
 	
 	# extract the animal id from the file path
 	aid=os.path.splitext(i)[0]
-	aid=aid.split('\\')
+
+	## add condtion for character conversion / \\
+	aid=aid.split('/')
 	aid=aid[-1]
 
 	# load the video file to be working with
@@ -57,7 +60,7 @@ for i in files:
 		# if cv2.waitKey(25) & 0xFF == ord('q'):
   #         break
 		meanFrame.append(np.mean(frame))
-		if len(meanFrame) > 10000: # limit the analysis on the first 300 frames of video
+		if len(meanFrame) > 400000: # 10000 limit the analysis on the first 300 frames of video
 			break
 			vcap.release()
 	# etime=(time.time()-start)
@@ -65,6 +68,7 @@ for i in files:
 	# perform convolution to identify the step in the time series
 	meanFrame -= np.mean(meanFrame)
 	step = np.hstack((np.ones(len(meanFrame)), -1*np.ones(len(meanFrame))))
+	step = np.flip(step) # comment out this line if the switch
 	meanFrame_step = np.convolve(meanFrame, step, mode='valid')
 	step_idx = np.argmax(meanFrame_step)
 
@@ -81,7 +85,7 @@ for i in files:
 
 	# extract all the major information for one files
 	allStepIdx.append(step_idx)
-	aidF.append(int(aid))
+	aidF.append(aid)
 
 
 
@@ -90,7 +94,7 @@ distMeas=pd.DataFrame({'animalID': aidF,
 					   'Transition': allStepIdx})
 
 # sort the data by animal id and depth
-distMeas=distMeas.sort_values(by=['animalID','depth'])
+distMeas=distMeas.sort_values(by=['animalID','Transition'])
 distMeas=distMeas.reset_index(drop=True)
 
 pd.DataFrame.to_csv(distMeas, path+'/LaserTriggerDetect.csv')
