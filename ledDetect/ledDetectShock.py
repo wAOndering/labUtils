@@ -98,7 +98,6 @@ def detectLED(file, myDir, startY=400, endY=439, startX=354, endX=400,  startTim
 
 
 # run the funciton
-stime=time.time()
 detectLED(file, myDir)
-etime=(time.time()-stime)
+
 
