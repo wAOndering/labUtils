@@ -82,13 +82,13 @@ def detectLED(file, myDir, startY=400, endY=439, startX=354, endX=400,  startTim
 	# remove peaks detected before 2min
 	peaks=peaks[peaks>=2*60*fps]
 
-	# generate graphical output
-	plt.plot(meanFrame)
-	plt.plot(peaks, meanFrame[peaks], "x")
-	plt.show(block=False)
-	plt.pause(1)
-	plt.savefig(myDir+'/'+aid+".png")
-	plt.close()
+	## generate graphical output
+	# plt.plot(meanFrame)
+	# plt.plot(peaks, meanFrame[peaks], "x")
+	# plt.show(block=False)
+	# plt.pause(1)
+	# plt.savefig(myDir+'/'+aid+".png")
+	# plt.close()
 
 
 	np.savetxt(myDir+'/'+aid+'.txt', peaks, delimiter=',')   # X is an array
