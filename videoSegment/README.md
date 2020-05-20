@@ -1,9 +1,4 @@
 # videoSegment
-documentation to be updated  
-The transition between temporal sequence of interest is amphasize by a yellow flash on the output video.
-
-### requirements
-Anaconda is recommended [link](https://www.anaconda.com/distribution/)
 
 ### description
 The code `ffmpegProcess.py` needs some work but is an improved version of the videoSegment file and should be worked on not the other files
